@@ -13,19 +13,18 @@ import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import android.graphics.Color
 import java.io.File
-import com.apero.uiautomator.config.TestConfig
+import com.apero.uiautomator.config.FetchRemoteConfigTest
 
 @RunWith(AndroidJUnit4::class)
 class LoginScreenTest {
 
     companion object {
-        private const val PACKAGE_NAME = "com.apero.uiautomator"
+        private const val PACKAGE_NAME = "com.apero.divkit_demo_xml"
         private const val LAUNCH_TIMEOUT = 5000L
         private const val UI_TIMEOUT = 2000L
     }
@@ -38,9 +37,9 @@ class LoginScreenTest {
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         
         // Tải giá trị cấu hình từ Firebase Remote Config (hoặc giá trị mặc định)
-        TestConfig.initFromRemoteConfig()
+        FetchRemoteConfigTest.initFromRemoteConfig()
 
-        println("loginButtonColor: ${TestConfig.loginButtonColor}")
+        println("loginButtonColor: ${FetchRemoteConfigTest.loginButtonColor}")
 
         // Trở về màn hình chính
         device.pressHome()
@@ -92,13 +91,13 @@ class LoginScreenTest {
         assertNotNull("Không tìm thấy nút login", loginButton)
 
         // Sử dụng màu từ Remote Config
-        val expectedColor = Color.parseColor(TestConfig.loginButtonColor)
+        val expectedColor = Color.parseColor(FetchRemoteConfigTest.loginButtonColor)
         
         // Lấy màu nền thực tế của button
         val actualColor = getBackgroundColorOfView(loginButton)
 
         // Kiểm tra màu nền của button có trùng với màu mong đợi không
-        assertEquals("Màu nền của button không phải là ${TestConfig.loginButtonColor}", expectedColor, actualColor)
+        assertEquals("Màu nền của button không phải là ${FetchRemoteConfigTest.loginButtonColor}", expectedColor, actualColor)
     }
 
     // Hàm hỗ trợ để lấy màu nền của UiObject2

@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Lớp chứa cấu hình cho tests, có thể được thay thế bằng Firebase Remote Config trong triển khai thực tế
  */
-object TestConfig {
+object FetchRemoteConfigTest {
     // Màu nút Login
     var loginButtonColor = "null"
     

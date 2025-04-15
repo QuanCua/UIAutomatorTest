@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.apero.divkit_demo_xml" />
+                  <option name="mobileSdkAppId" value="1:344444296014:android:25ddb793d8f7ef58b05c1f" />
+                  <option name="projectId" value="dynamicui-aa91b" />
+                  <option name="projectNumber" value="344444296014" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
