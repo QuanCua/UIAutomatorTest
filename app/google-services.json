@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "344444296014",
+    "project_id": "dynamicui-aa91b",
+    "storage_bucket": "dynamicui-aa91b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:344444296014:android:25ddb793d8f7ef58b05c1f",
+        "android_client_info": {
+          "package_name": "com.apero.divkit_demo_xml"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAM67XunH5rn0tKxGUVCtOSogW0uZobXM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

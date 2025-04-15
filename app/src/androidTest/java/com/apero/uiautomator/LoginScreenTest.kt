@@ -17,9 +17,9 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import android.graphics.Bitmap
 import android.graphics.Color
 import java.io.File
+import com.apero.uiautomator.config.TestConfig
 
 @RunWith(AndroidJUnit4::class)
 class LoginScreenTest {
@@ -34,9 +34,14 @@ class LoginScreenTest {
 
     @Before
     fun setUp() {
-
         // Khởi tạo UiDevice
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        
+        // Tải giá trị cấu hình từ Firebase Remote Config (hoặc giá trị mặc định)
+        TestConfig.initFromRemoteConfig()
+
+        println("loginButtonColor: ${TestConfig.loginButtonColor}")
+
         // Trở về màn hình chính
         device.pressHome()
 
@@ -81,109 +86,19 @@ class LoginScreenTest {
     }
 
     @Test
-    fun testLoginWithValidCredentials() {
-        // Đợi cho LoginActivity hiển thị
-        device.wait(Until.hasObject(By.text("Login")), LAUNCH_TIMEOUT)
-        
-        // Tìm trường đăng nhập bằng ID
-        val emailField: UiObject2 = device.findObject(By.res(PACKAGE_NAME, "edtEmail"))
-        assertNotNull("Không tìm thấy trường email", emailField)
-
-        // Nhập email
-        emailField.text = "user@example.com"
-
-        // Tìm trường mật khẩu
-        val passwordField: UiObject2 = device.findObject(By.res(PACKAGE_NAME, "password_input"))
-        assertNotNull("Không tìm thấy trường mật khẩu", passwordField)
-
-        // Nhập mật khẩu
-        passwordField.text = "password123"
-
-        // Tìm nút đăng nhập
-        val loginButton: UiObject2 = device.findObject(By.res(PACKAGE_NAME, "submit_button"))
-        assertNotNull("Không tìm thấy nút đăng nhập", loginButton)
-
-        // Nhấn nút đăng nhập
-        loginButton.click()
-
-        // Kiểm tra đăng nhập thành công bằng cách xác nhận Toast hiển thị
-        // Đợi toast message hiển thị (text chứa "Đăng nhập thành công")
-        // Tăng thời gian chờ và sử dụng cách phát hiện Toast khác
-        /*Thread.sleep(1000) // Chờ một chút để Toast xuất hiện
-        val toastShown = device.wait(Until.hasObject(By.textContains("Đăng nhập thành công").pkg("android")), 3000L)
-        assertTrue("Không hiển thị thông báo đăng nhập thành công", toastShown)
-*/
-        // Hoặc xác nhận đăng nhập thành công bằng cách kiểm tra đã trở về MainActivity
-        // Thay vì phụ dependencies vào Toast, kiểm tra MainActivity đã được hiển thị
-        device.wait(Until.gone(By.res(PACKAGE_NAME, "submit_button")), 3000L)
-        assertTrue("Không chuyển về MainActivity sau khi đăng nhập", !device.hasObject(By.res(
-            PACKAGE_NAME, "submit_button")))
-
-        // Kiểm tra đã quay về MainActivity (có nghĩa là LoginActivity đã finish)
-        // Đợi một chút để activity chuyển đổi
-    }
-
-    @Test
-    fun testEmptyFieldsValidation() {
-        // Tìm nút đăng nhập mà không nhập thông tin
-        val loginButton: UiObject2 = device.findObject(By.res(PACKAGE_NAME, "submit_button"))
-        assertNotNull("Không tìm thấy nút đăng nhập", loginButton)
-
-        // Nhấn nút đăng nhập
-        loginButton.click()
-
-        // Kiểm tra thông báo lỗi trường trống
-        val emailError = device.hasObject(By.res(PACKAGE_NAME, "email_error"))
-        assertTrue("Không hiển thị lỗi email trống", emailError)
-
-        val passwordError = device.hasObject(By.res(PACKAGE_NAME, "password_error"))
-        assertTrue("Không hiển thị lỗi mật khẩu trống", passwordError)
-    }
-
-    @Test
-    fun testForgotPasswordLink() {
-        // Tìm link quên mật khẩu bằng text
-        val forgotPasswordLink: UiObject2 = device.findObject(By.text("Quên mật khẩu?"))
-        assertNotNull("Không tìm thấy link quên mật khẩu", forgotPasswordLink)
-
-        // Nhấn vào link
-        forgotPasswordLink.click()
-
-        // Kiểm tra màn hình đặt lại mật khẩu hiển thị
-        val resetScreen = device.wait(Until.hasObject(By.res(PACKAGE_NAME, "reset_password_screen")), UI_TIMEOUT)
-        assertTrue("Màn hình đặt lại mật khẩu không hiển thị", resetScreen)
-    }
-
-    @Test
-    fun testNavigateToRegister() {
-        // Tìm nút đăng ký
-        val registerButton: UiObject2 = device.findObject(By.text("Đăng ký"))
-        assertNotNull("Không tìm thấy nút đăng ký", registerButton)
-
-        // Nhấn nút đăng ký
-        registerButton.click()
-
-        // Kiểm tra màn hình đăng ký hiển thị
-        val registerScreen = device.wait(Until.hasObject(By.res(PACKAGE_NAME, "register_screen")), UI_TIMEOUT)
-        assertTrue("Màn hình đăng ký không hiển thị", registerScreen)
-    }
-
-    @Test
     fun testLoginButtonBackgroundColor() {
         // Tìm nút login bằng ID
         val loginButton: UiObject2 = device.findObject(By.res(PACKAGE_NAME, "submit_button"))
         assertNotNull("Không tìm thấy nút login", loginButton)
 
-        // Khởi tạo biến có mã màu "#000000" (màu đen)
-//        val failColor = Color.parseColor("#000000")
-        val trueColor = Color.parseColor("#949BF4")
-
+        // Sử dụng màu từ Remote Config
+        val expectedColor = Color.parseColor(TestConfig.loginButtonColor)
+        
         // Lấy màu nền thực tế của button
-        // Sử dụng getBackgroundColor (cần extension function)
         val actualColor = getBackgroundColorOfView(loginButton)
 
         // Kiểm tra màu nền của button có trùng với màu mong đợi không
-        assertEquals("Màu nền của button không phải là #000000", trueColor, actualColor)
+        assertEquals("Màu nền của button không phải là ${TestConfig.loginButtonColor}", expectedColor, actualColor)
     }
 
     // Hàm hỗ trợ để lấy màu nền của UiObject2

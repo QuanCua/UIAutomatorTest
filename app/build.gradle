@@ -1,14 +1,15 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
 }
 
 android {
     namespace 'com.apero.uiautomator'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
-        applicationId "com.apero.uiautomator"
+        applicationId "com.apero.divkit_demo_xml"
         minSdk 24
         targetSdk 34
         versionCode 1
@@ -43,4 +44,15 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.5.2'
     androidTestImplementation 'androidx.test:rules:1.5.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+
+    // Firebase Remote Config
+    implementation 'com.google.firebase:firebase-config-ktx:21.4.1'
+    implementation 'com.google.firebase:firebase-analytics-ktx:22.4.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3'
+
+    // Firebase cho test
+    androidTestImplementation 'com.google.firebase:firebase-config-ktx:21.4.1'
+    androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+    androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3'
 }
